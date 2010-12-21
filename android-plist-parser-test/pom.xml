@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.longevitysoft.android</groupId>
+		<artifactId>android-plist-parser-parent</artifactId>
+		<version>0.5</version>
+	</parent>
+
+	<groupId>com.longevitysoft.android</groupId>
+	<artifactId>android-plist-parser-test</artifactId>
+	<packaging>apk</packaging>
+	<name>Android PList Parser Instrumentation</name>
+	<description>Instrumentation for SAX based PList parser for Android</description>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License v3</name>
+			<url>http://www.gnu.org/licenses/</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>bfree</id>
+			<name>Free Beachler</name>
+			<email>fbeachler@gmail.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android-test</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.longevitysoft.android</groupId>
+            <artifactId>android-plist-parser-app</artifactId>
+            <version>${project.version}</version>
+            <type>apk</type>
+        </dependency>
+        <dependency>
+            <groupId>com.longevitysoft.android</groupId>
+            <artifactId>android-plist-parser-app</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <sourceDirectory>src</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>maven-android-plugin</artifactId>
+                <configuration>
+                    <sdk>
+                        <path>${env.ANDROID_HOME}</path>
+                        <platform>1.6</platform>
+                    </sdk>
+                    <deleteConflictingFiles>true</deleteConflictingFiles>
+                </configuration>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

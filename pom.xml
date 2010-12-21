@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.longevitysoft.android</groupId>
+	<artifactId>android-plist-parser-parent</artifactId>
+	<version>0.5</version>
+	<packaging>pom</packaging>
+	<name>Android PList Parser</name>
+	<description>SAX based PList parser for Android</description>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>android</artifactId>
+				<version>1.6_r2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>android-test</artifactId>
+				<version>1.6_r2</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>maven-android-plugin</artifactId>
+					<version>2.8.3</version>
+					<configuration>
+						<sdk>
+							<platform>4</platform>
+						</sdk>
+						<emulator>
+							<!-- the name of the avd device to use for starting the emulator -->
+							<!-- #FIXME - use generic emulator params if possible -->
+							<avd>SDK1.6_ALL</avd>
+							<wait>10000</wait>
+							<options>-no-skin</options>
+						</emulator>
+						<zipalign>
+							<verbose>true</verbose>
+						</zipalign>
+						<deleteConflictingFiles>true</deleteConflictingFiles>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+    <modules>
+        <module>android-plist-parser-app</module>
+        <module>android-plist-parser-test</module>
+    </modules>
+
+</project>

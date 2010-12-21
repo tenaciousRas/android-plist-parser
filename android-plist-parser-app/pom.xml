@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.longevitysoft.android</groupId>
+		<artifactId>android-plist-parser-parent</artifactId>
+		<version>0.5</version>
+	</parent>
+
+	<groupId>com.longevitysoft.android</groupId>
+	<artifactId>android-plist-parser-app</artifactId>
+	<packaging>apk</packaging>
+	<name>Android PList Parser Source/App</name>
+	<description>Stub App to wrap SAX based PList parser for Android</description>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License v3</name>
+			<url>http://www.gnu.org/licenses/</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>bfree</id>
+			<name>Free Beachler</name>
+			<email>fbeachler@gmail.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>maven-android-plugin</artifactId>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>startEmulator</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>emulator-start</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>parse-version</id>
+						<goals>
+							<goal>parse-version</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!--
+			to avoid having to do symlinks to rt.jar like documented e.g. here
+			http://bruehlicke.blogspot.com/2009/11/missing-rtjar-mac-os-x-using-proguard.html
+			http://codebistro.com/2010/07/18/proguard-and-runtime-libraries-on-mac-os-x/
+		-->
+		<profile>
+			<id>linux</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<rt.jar.path>${env.JAVA_HOME}/jre/lib/rt.jar</rt.jar.path>
+				<jsse.jar.path>${env.JAVA_HOME}/jre/lib/jsse.jar</jsse.jar.path>
+			</properties>
+		</profile>
+		<!--
+			mac profile has to be after unix since running on mac will trigger
+			both
+		-->
+		<profile>
+			<id>mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<!-- absolute path -->
+				<rt.jar.path>/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar</rt.jar.path>
+				<jsse.jar.path>/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jsse.jar</jsse.jar.path>
+				<!--
+					or with JAVA_HOME
+					/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/
+					<rt.jar.path>${env.JAVA_HOME}/Classes/classes.jar</rt.jar.path>
+					<jsse.jar.path>${env.JAVA_HOME}/Classes/jsse.jar</jsse.jar.path>
+				-->
+			</properties>
+		</profile>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<rt.jar.path>${env.JAVA_HOME}/jre/lib/rt.jar</rt.jar.path>
+				<jsse.jar.path>${env.JAVA_HOME}/jre/lib/jsse.jar</jsse.jar.path>
+			</properties>
+		</profile>
+
+	</profiles>
+</project>
