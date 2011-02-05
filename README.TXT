@@ -1,5 +1,5 @@
-Android PList parser is a SAX-based implementation of a XML PList parser
-for Android.  XML PList is a format developed by Apple Inc.  PLists are commonly used in Apple application development on Cocoa and the iPhone SDK, and the XML format is especially used for iPhone applications.
+Android PList parser is a SAX-based implementation of a PList-XML parser
+for Android.  PList-XML is a format developed by Apple Inc.  PLists are commonly used in Apple application development on Cocoa and the iPhone SDK, and the XML format is especially used for iPhone applications.  The intent of this parser is to fully support the PList-XML DTD (http://www.apple.com/DTDs/PropertyList-1.0.dtd).
 
 License
 -------
