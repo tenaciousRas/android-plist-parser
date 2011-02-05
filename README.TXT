@@ -20,8 +20,9 @@ Source
 ------
 The main objective of the project is to provide you with consumable source code for your application.  You may also want to consider using a maven build to generate a JAR for use in your application (and comment out the test module for this).
 
-Known Issues
+TODOs
 ------------
-Base64 support completely untested.  If you implement, please contribute back to the project.
+- Base64 support still untested.  Somebody clone and contribute a unit test back to the project for this!
+- More complete support of various types of PList permutations to more fully verify the DTD.
 
 PList - Copyright 2010 Apple Inc. All Rights Reserved.

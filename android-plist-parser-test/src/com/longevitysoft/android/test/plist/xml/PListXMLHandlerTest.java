@@ -12,7 +12,6 @@
  */
 package com.longevitysoft.android.test.plist.xml;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -29,11 +28,11 @@ import com.longevitysoft.android.xml.plist.PListXMLHandler.PList;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.PListParserListener;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.ParseMode;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.PList.Dict;
-
+import com.longevitysoft.android.xml.plist.PListXMLHandler.PList.PListObject;
 
 /**
  * @author fbeachler
- *
+ * 
  */
 public class PListXMLHandlerTest extends AndroidTestCase {
 
@@ -44,7 +43,9 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	protected PListXMLHandler handler;
 	private boolean mockListenerInvoked;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
@@ -52,7 +53,9 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 		handler = new PListXMLHandler();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	protected void tearDown() throws Exception {
@@ -75,8 +78,11 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	}
 
 	/**
-	 * Test method for {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()}.
-	 * @throws SAXException 
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()}
+	 * .
+	 * 
+	 * @throws SAXException
 	 */
 	public void testStartDocument() throws SAXException {
 		assertNull(handler.getPlist());
@@ -87,21 +93,28 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	}
 
 	/**
-	 * Test method for {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#characters(char[], int, int)}.
-	 * @throws SAXException 
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#characters(char[], int, int)}
+	 * .
+	 * 
+	 * @throws SAXException
 	 */
 	public void testCharacters() throws SAXException {
 		handler.setTempVal(new Stringer());
-		char[] chars = { 'f', 'o', 'o', 'b', 'a', 'r'};
+		char[] chars = { 'f', 'o', 'o', 'b', 'a', 'r' };
 		handler.characters(chars, 1, 3);
 		assertEquals("oob", handler.getTempVal().getBuilder().toString());
 	}
 
 	/**
-	 * Test method for {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)}.
-	 * @throws SAXException 
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)}
+	 * .
+	 * 
+	 * @throws SAXException
 	 */
-	public void testStartElement_StringStringStringAttributes() throws SAXException {
+	public void testStartElement_StringStringStringAttributes()
+			throws SAXException {
 		Attributes attrs = new AttributesImpl();
 		assertNull(handler.getPlist());
 
@@ -111,8 +124,11 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	}
 
 	/**
-	 * Test method for {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws SAXException 
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
+	 * .
+	 * 
+	 * @throws SAXException
 	 */
 	public void testEndElementString_Unknown_String() throws SAXException {
 		handler.startDocument();
@@ -121,8 +137,11 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	}
 
 	/**
-	 * Test method for {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws SAXException 
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
+	 * .
+	 * 
+	 * @throws SAXException
 	 */
 	public void testEndElementString_PList_CallsListener() throws SAXException {
 		mockListenerInvoked = false;
@@ -132,19 +151,23 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 			public void onPListParseDone(PList list, ParseMode mode) {
 				mockListenerInvoked = true;
 			}
-			
+
 		};
 		handler = new PListXMLHandler() {
 
-			/* (non-Javadoc)
-			 * @see org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument
+			 * ()
 			 */
 			@Override
 			public void startDocument() throws SAXException {
 				super.startDocument();
 				super.setPlist(new PList());
 			}
-			
+
 		};
 		handler.setParseListener(mockListener);
 		handler.startDocument();
@@ -155,56 +178,77 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	protected static class MockPListXMLHandlerFullValid extends PListXMLHandler {
 
-			/* (non-Javadoc)
-			 * @see org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()
-			 */
-			@Override
-			public void startDocument() throws SAXException {
-				super.startDocument();
-				super.setPlist(new PList());
-				super.stack = new Stack<StatefulDictionaryItem>();
-				Dict rootDict = new PList.Dict();
-				super.dict = rootDict;
-				super.getPlist().setRootDictionary(rootDict);
-			}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()
+		 */
+		@Override
+		public void startDocument() throws SAXException {
+			super.startDocument();
+			super.setPlist(new PList());
+			super.stack = new Stack<PListObject>();
+			Dict rootDict = new PList.Dict();
+			super.getPlist().setRootElement(rootDict);
+			super.elementDepth = 1;
+		}
 
-			public void setInArray(String key) throws SAXException {
-				super.key = key;
-				Attributes attrs = new AttributesImpl();
-				super.startElement(TAG_NAMESPACE, "array", "array", attrs);
-			}
+		public void setInArray(String key) throws SAXException {
+			super.key = key;
+			Attributes attrs = new AttributesImpl();
+			super.startElement(TAG_NAMESPACE, "array", "array", attrs);
+		}
 
-			public void setInDict(String key) throws SAXException {
-				super.key = key;
-				Attributes attrs = new AttributesImpl();
-				super.startElement(TAG_NAMESPACE, "dict", "dict", attrs);
-			}
+		public void setInDict(String key) throws SAXException {
+			super.key = key;
+			Attributes attrs = new AttributesImpl();
+			super.startElement(TAG_NAMESPACE, "dict", "dict", attrs);
+		}
 
 	};
+
 	/**
-	 * Test method for {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws SAXException 
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
+	 * .
+	 * 
+	 * @throws SAXException
 	 */
 	public void testEndElementString_FullValidPList() throws SAXException {
 		// setup test
 		MockPListXMLHandlerFullValid mockHandler = new MockPListXMLHandlerFullValid();
 		PList expected = new PList();
 		PList.Dict expectedDict = new PList.Dict();
-		Map<String, Object> dictMap = new HashMap<String, Object>();
-		dictMap.put("key-1", "string-val-1");
-		dictMap.put("key-2", 101);
-		ArrayList<Object> arr = new ArrayList<Object>();
-		arr.add("string-val-2");
-		arr.add("102");
+		Map<String, PListObject> dictMap = new HashMap<String, PListObject>();
+		PList.String v1 = new PList.String();
+		v1.setValue("string-val-1");
+		PList.Integer v2 = new PList.Integer();
+		v2.setValue(101);
+		dictMap.put("key-1", v1);
+		dictMap.put("key-2", v2);
+		PList.PListArray arr = new PList.PListArray();
+		PList.String v3 = new PList.String();
+		v3.setValue("string-val-1");
+		PList.Integer v4 = new PList.Integer();
+		v4.setValue(102);
+		arr.add(v2);
+		arr.add(v4);
 		dictMap.put("key-3", arr);
-		arr = new ArrayList<Object>();
-		Map<String, Object> arrDictMap = new HashMap<String, Object>();
-		arrDictMap.put("key-3", "string-val-3");
-		arrDictMap.put("key-4", 103);
-		arr.add(arrDictMap);
+		arr = new PList.PListArray();
+		Map<String, PListObject> arrDictMap = new HashMap<String, PListObject>();
+		PList.String v5 = new PList.String();
+		v5.setValue("string-val-3");
+		PList.Integer v6 = new PList.Integer();
+		v6.setValue(103);
+		arrDictMap.put("key-3", v5);
+		arrDictMap.put("key-4", v6);
+		Dict arrDict = new PList.Dict();
+		arrDict.setConfigMap(arrDictMap);
+		arr.add(arrDict);
 		dictMap.put("key-4", arr);
 		expectedDict.setConfigMap(dictMap);
-		expected.setRootDictionary(expectedDict);
+		expected.setRootElement(expectedDict);
 		// exec test
 		mockHandler.startDocument();
 		mockHandler.setTempVal(new Stringer("key-1"));
@@ -239,11 +283,19 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 		mockHandler.endElement(TAG_NAMESPACE, "array", "array");
 		// wrap up
 		mockHandler.endElement(TAG_NAMESPACE, "plist", "plist");
-		assertNotNull(mockHandler.getPlist().getRootDictionary().getConfigMap());
-		assertTrue(expected.getRootDictionary().getConfiguration("key-1").equals(mockHandler.getPlist().getRootDictionary().getConfiguration("key-1")));
-		assertNotNull(mockHandler.getPlist().getRootDictionary().getConfigurationArray("key-3"));
-		assertEquals(2, mockHandler.getPlist().getRootDictionary().getConfigurationArray("key-3").size());
-		assertEquals(new Integer(103), ((PList.Dict) mockHandler.getPlist().getRootDictionary().getConfigurationArray("key-4").get(1)).getConfigurationInteger("key-4"));
+		assertNotNull(((PList.Dict) mockHandler.getPlist().getRootElement())
+				.getConfigMap());
+		assertTrue(((PList.Dict) expected.getRootElement())
+				.getConfiguration("key-1").equals(
+						((PList.Dict) mockHandler.getPlist().getRootElement())
+								.getConfiguration("key-1")));
+		assertNotNull(((PList.Dict) mockHandler.getPlist().getRootElement())
+				.getConfigurationArray("key-3"));
+		assertEquals(2, ((PList.Dict) mockHandler.getPlist().getRootElement())
+				.getConfigurationArray("key-3").size());
+		assertEquals(new Integer(103), ((PList.Dict) ((PList.Dict) mockHandler.getPlist()
+				.getRootElement()).getConfigurationArray("key-4").get(1))
+				.getConfigurationInteger("key-4"));
 	}
 
 }

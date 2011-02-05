@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.longevitysoft.android</groupId>
 	<artifactId>android-plist-parser-parent</artifactId>
-	<version>0.5</version>
+	<version>0.9</version>
 	<packaging>pom</packaging>
 	<name>Android PList Parser</name>
 	<description>SAX based PList parser for Android</description>

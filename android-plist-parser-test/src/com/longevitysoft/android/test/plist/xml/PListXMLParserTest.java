@@ -178,6 +178,79 @@ public class PListXMLParserTest extends TestCase {
 			+ "		</dict>\n"
 			+ "	</array>\n"
 			+ "</dict>\n" + "</plist>\n" + "";
+	public static final String VALID_PLIST_ARRAY_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<array>"
+		+ "<dict>"
+		+ "<key>foo</key>"
+		+ "<string>1.0</string>" 
+		+ "</dict>" 
+		+ "<dict>"
+		+ "<key>bar</key>"
+		+ "<string>1.1</string>" 
+		+ "</dict>"
+		+ "</array>"
+		+ "</plist>";
+	public static final String VALID_PLIST_ARRAY_ROOT_NESTED_ARRAY = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<array>"
+		+ "<array>"
+		+ "<string>foo</string>"
+		+ "<string>bar</string>"
+		+ "</array>"
+		+ "<array>"
+		+ "<string>baz</string>"
+		+ "<string>quux</string>"
+		+ "</array>"
+		+ "</array>"
+		+ "</plist>";
+	public static final String VALID_PLIST_STRING_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<string>"
+		+ "foobar"
+		+ "</string>"
+		+ "</plist>";
+	public static final String VALID_PLIST_DATA_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<data>"
+		+ "Zm9vYmFy"
+		+ "</data>"
+		+ "</plist>";
+	public static final String VALID_PLIST_DATE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<date>"
+		+ "01212011 14:09:00"
+		+ "</date>"
+		+ "</plist>";
+	public static final String VALID_PLIST_REAL_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<real>"
+		+ "3.1417"
+		+ "</real>"
+		+ "</plist>";
+	public static final String VALID_PLIST_INTEGER_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<integer>"
+		+ "1"
+		+ "</integer>"
+		+ "</plist>";
+	public static final String VALID_PLIST_TRUE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<true />"
+		+ "</plist>";
+	public static final String VALID_PLIST_FALSE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+		+ "<plist version=\"1.0\">"
+		+ "<false />"
+		+ "</plist>";
 
 	/**
 	 * The class under test.
@@ -256,8 +329,7 @@ public class PListXMLParserTest extends TestCase {
 		parser.setHandler(handler);
 		parser.parse(INVALID_PLIST);
 		assertNotNull(((PListXMLHandler) parser.getHandler()).getPlist());
-		assertNull(((PListXMLHandler) parser.getHandler()).getPlist()
-				.getRootDictionary());
+		assertNull(((PListXMLHandler) parser.getHandler()).getPlist().getRootElement());
 	}
 
 	/**
@@ -283,10 +355,24 @@ public class PListXMLParserTest extends TestCase {
 		parser.parse(VALID_WORKFLOW_PLIST);
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
-		assertEquals(6, actualPList.getRootDictionary().getConfigurationArray(
+		assertEquals(6, ((PList.Dict) actualPList.getRootElement()).getConfigurationArray(
 				"workflow_answers").size());
-		assertEquals(3, actualPList.getRootDictionary().getConfigurationArray(
+		assertEquals(3, ((PList.Dict) actualPList.getRootElement()).getConfigurationArray(
 				"workflow_tasks").size());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListArrayRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_ARRAY_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals(2, ((PList.PListArray) actualPList.getRootElement()).size());
 	}
 
 }
