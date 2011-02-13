@@ -12,6 +12,10 @@
  */
 package com.longevitysoft.android.xml.plist;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.longevitysoft.android.util.Stringer;
 
 /**
  * @author fbeachler
@@ -29,7 +33,7 @@ public class PListXMLParser extends BaseXMLParser {
 	}
 
 	/**
-	 * Parse a classifications XML document.
+	 * Parse a PList XML document.
 	 * 
 	 * @param xml
 	 */
@@ -45,6 +49,33 @@ public class PListXMLParser extends BaseXMLParser {
 		}
 		initParser();
 		super.parse(xml);
+	}
+
+	/**
+	 * Parse a PList XML document from an {@link InputStream}.
+	 * 
+	 * @param xml
+	 * @throws IOException
+	 */
+	public void parse(InputStream is) throws IllegalStateException, IOException {
+		PListXMLHandler pListHandler = (PListXMLHandler) getHandler();
+		if (null == pListHandler) {
+			throw new IllegalStateException(
+					"handler is null, must set a document handler before calling parse");
+		}
+		if (null == is) {
+			pListHandler.setPlist(null);
+			return;
+		}
+		Stringer xml = null;
+		try {
+			xml = Stringer.convert(is);
+		} catch (IOException e) {
+			throw new IOException(
+					"error reading from input string - is it encoded as UTF-8?");
+		}
+		initParser();
+		super.parse(xml.getBuilder().toString());
 	}
 
 }

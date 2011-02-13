@@ -12,6 +12,9 @@
  */
 package com.longevitysoft.android.test.plist.xml;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -278,9 +281,9 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#getHandler()}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#getHandler()}
 	 * and
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#setHandler(org.zooniverse.android.galaxyzoo.xml.PListXMLHandler)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#setHandler(com.longevitysoft.android.test.plist.xml.PListXMLHandler)}
 	 * .
 	 */
 	public void testHandlerGetterSetter() {
@@ -292,12 +295,12 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseWithNoHandler() {
 		try {
-			parser.parse(null);
+			parser.parse("");
 		} catch (Exception e) {
 			assertEquals(IllegalStateException.class.getName(), e.getClass()
 					.getName());
@@ -308,19 +311,19 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseNull() {
 		PListXMLHandler handler = new PListXMLHandler();
 		parser.setHandler(handler);
-		parser.parse(null);
+		parser.parse("");
 		assertNull(((PListXMLHandler) parser.getHandler()).getPlist());
 	}
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidXMLInvalidPList() {
@@ -334,7 +337,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidXMLWorkflowVersion() {
@@ -346,7 +349,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidXMLWorkflow() {
@@ -363,7 +366,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListArrayRoot() {
@@ -377,7 +380,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListArrayRootNestedArray() {
@@ -395,7 +398,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListStringRoot() {
@@ -413,7 +416,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListDataRoot() {
@@ -428,7 +431,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListDateRoot() {
@@ -444,7 +447,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListRealRoot() {
@@ -459,7 +462,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListIntegerRoot() {
@@ -476,7 +479,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListTrueRoot() {
@@ -490,7 +493,7 @@ public class PListXMLParserTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
 	public void testParseValidPListFalseRoot() {
@@ -500,6 +503,26 @@ public class PListXMLParserTest extends TestCase {
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
 		assertFalse(((False) actualPList.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.io.InputStream)}
+	 * .
+	 * 
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 */
+	public void testParseValidPListArrayRootAsInputStream()
+			throws IllegalStateException, IOException {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		InputStream bas = new ByteArrayInputStream(
+				VALID_PLIST_ARRAY_ROOT.getBytes());
+		parser.parse(bas);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals(2, ((Array) actualPList.getRootElement()).size());
 	}
 
 }
