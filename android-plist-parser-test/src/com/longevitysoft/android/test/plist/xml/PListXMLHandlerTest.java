@@ -24,11 +24,13 @@ import android.test.AndroidTestCase;
 
 import com.longevitysoft.android.util.Stringer;
 import com.longevitysoft.android.xml.plist.PListXMLHandler;
-import com.longevitysoft.android.xml.plist.PListXMLHandler.PList;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.PListParserListener;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.ParseMode;
-import com.longevitysoft.android.xml.plist.PListXMLHandler.PList.Dict;
-import com.longevitysoft.android.xml.plist.PListXMLHandler.PList.PListObject;
+import com.longevitysoft.android.xml.plist.domain.Dict;
+import com.longevitysoft.android.xml.plist.domain.Integer;
+import com.longevitysoft.android.xml.plist.domain.PList;
+import com.longevitysoft.android.xml.plist.domain.Array;
+import com.longevitysoft.android.xml.plist.domain.PListObject;
 
 /**
  * @author fbeachler
@@ -72,7 +74,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	public void testPListGetterSetter() {
 		assertNull(handler.getPlist());
-		PListXMLHandler.PList expected = new PListXMLHandler.PList();
+		PList expected = new PList();
 		handler.setPlist(expected);
 		assertEquals(expected, handler.getPlist());
 	}
@@ -189,7 +191,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 			super.startDocument();
 			super.setPlist(new PList());
 			super.stack = new Stack<PListObject>();
-			Dict rootDict = new PList.Dict();
+			Dict rootDict = new Dict();
 			super.getPlist().setRootElement(rootDict);
 			super.elementDepth = 1;
 		}
@@ -215,35 +217,37 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	 * 
 	 * @throws SAXException
 	 */
+	// FIXME - this test no longer requires just setting tempval - but also the state
+	// of the handler's stack and its flags for parent element state
 	public void testEndElementString_FullValidPList() throws SAXException {
 		// setup test
 		MockPListXMLHandlerFullValid mockHandler = new MockPListXMLHandlerFullValid();
 		PList expected = new PList();
-		PList.Dict expectedDict = new PList.Dict();
+		Dict expectedDict = new Dict();
 		Map<String, PListObject> dictMap = new HashMap<String, PListObject>();
-		PList.String v1 = new PList.String();
+		com.longevitysoft.android.xml.plist.domain.String v1 = new com.longevitysoft.android.xml.plist.domain.String();
 		v1.setValue("string-val-1");
-		PList.Integer v2 = new PList.Integer();
+		Integer v2 = new Integer();
 		v2.setValue(101);
 		dictMap.put("key-1", v1);
 		dictMap.put("key-2", v2);
-		PList.PListArray arr = new PList.PListArray();
-		PList.String v3 = new PList.String();
+		Array arr = new Array();
+		com.longevitysoft.android.xml.plist.domain.String v3 = new com.longevitysoft.android.xml.plist.domain.String();
 		v3.setValue("string-val-1");
-		PList.Integer v4 = new PList.Integer();
+		Integer v4 = new Integer();
 		v4.setValue(102);
 		arr.add(v2);
 		arr.add(v4);
 		dictMap.put("key-3", arr);
-		arr = new PList.PListArray();
+		arr = new Array();
 		Map<String, PListObject> arrDictMap = new HashMap<String, PListObject>();
-		PList.String v5 = new PList.String();
+		com.longevitysoft.android.xml.plist.domain.String v5 = new com.longevitysoft.android.xml.plist.domain.String();
 		v5.setValue("string-val-3");
-		PList.Integer v6 = new PList.Integer();
+		Integer v6 = new Integer();
 		v6.setValue(103);
 		arrDictMap.put("key-3", v5);
 		arrDictMap.put("key-4", v6);
-		Dict arrDict = new PList.Dict();
+		Dict arrDict = new Dict();
 		arrDict.setConfigMap(arrDictMap);
 		arr.add(arrDict);
 		dictMap.put("key-4", arr);
@@ -283,19 +287,18 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 		mockHandler.endElement(TAG_NAMESPACE, "array", "array");
 		// wrap up
 		mockHandler.endElement(TAG_NAMESPACE, "plist", "plist");
-		assertNotNull(((PList.Dict) mockHandler.getPlist().getRootElement())
+		assertNotNull(((Dict) mockHandler.getPlist().getRootElement())
 				.getConfigMap());
-		assertTrue(((PList.Dict) expected.getRootElement())
-				.getConfiguration("key-1").equals(
-						((PList.Dict) mockHandler.getPlist().getRootElement())
-								.getConfiguration("key-1")));
-		assertNotNull(((PList.Dict) mockHandler.getPlist().getRootElement())
+		assertTrue(((Dict) expected.getRootElement()).getConfiguration("key-1")
+				.equals(((Dict) mockHandler.getPlist().getRootElement())
+						.getConfiguration("key-1")));
+		assertNotNull(((Dict) mockHandler.getPlist().getRootElement())
 				.getConfigurationArray("key-3"));
-		assertEquals(2, ((PList.Dict) mockHandler.getPlist().getRootElement())
+		assertEquals(2, ((Dict) mockHandler.getPlist().getRootElement())
 				.getConfigurationArray("key-3").size());
-		assertEquals(new Integer(103), ((PList.Dict) ((PList.Dict) mockHandler.getPlist()
-				.getRootElement()).getConfigurationArray("key-4").get(1))
-				.getConfigurationInteger("key-4"));
+		assertEquals(new java.lang.Integer(103), ((Dict) ((Dict) mockHandler
+				.getPlist().getRootElement()).getConfigurationArray("key-4")
+				.get(1)).getConfigurationInteger("key-4"));
 	}
 
 }

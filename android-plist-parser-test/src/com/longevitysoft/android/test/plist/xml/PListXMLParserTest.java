@@ -12,11 +12,19 @@
  */
 package com.longevitysoft.android.test.plist.xml;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import com.longevitysoft.android.xml.plist.PListXMLHandler;
 import com.longevitysoft.android.xml.plist.PListXMLParser;
-import com.longevitysoft.android.xml.plist.PListXMLHandler.PList;
+import com.longevitysoft.android.xml.plist.domain.Array;
+import com.longevitysoft.android.xml.plist.domain.Data;
+import com.longevitysoft.android.xml.plist.domain.Dict;
+import com.longevitysoft.android.xml.plist.domain.False;
+import com.longevitysoft.android.xml.plist.domain.PList;
+import com.longevitysoft.android.xml.plist.domain.Real;
+import com.longevitysoft.android.xml.plist.domain.True;
 
 /**
  * @author fbeachler
@@ -124,7 +132,7 @@ public class PListXMLParserTest extends TestCase {
 			+ "			<key>workflow_answer_id</key>\n"
 			+ "			<integer>11</integer>\n"
 			+ "			<key>workflow_task_id</key>\n"
-			+ "			<integer>4</integer>\n" 
+			+ "			<integer>4</integer>\n"
 			+ "		</dict>\n"
 			+ "	</array>\n"
 			+ "	<key>workflow_tasks</key>\n"
@@ -179,78 +187,69 @@ public class PListXMLParserTest extends TestCase {
 			+ "	</array>\n"
 			+ "</dict>\n" + "</plist>\n" + "";
 	public static final String VALID_PLIST_ARRAY_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<array>"
-		+ "<dict>"
-		+ "<key>foo</key>"
-		+ "<string>1.0</string>" 
-		+ "</dict>" 
-		+ "<dict>"
-		+ "<key>bar</key>"
-		+ "<string>1.1</string>" 
-		+ "</dict>"
-		+ "</array>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<array>"
+			+ "<dict>"
+			+ "<key>foo</key>"
+			+ "<string>1.0</string>"
+			+ "</dict>"
+			+ "<dict>"
+			+ "<key>bar</key>"
+			+ "<string>1.1</string>"
+			+ "</dict>"
+			+ "</array>" + "</plist>";
 	public static final String VALID_PLIST_ARRAY_ROOT_NESTED_ARRAY = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<array>"
-		+ "<array>"
-		+ "<string>foo</string>"
-		+ "<string>bar</string>"
-		+ "</array>"
-		+ "<array>"
-		+ "<string>baz</string>"
-		+ "<string>quux</string>"
-		+ "</array>"
-		+ "</array>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<array>"
+			+ "<array>"
+			+ "<string>foo</string>"
+			+ "<string>bar</string>"
+			+ "</array>"
+			+ "<array>"
+			+ "<string>baz</string>"
+			+ "<string>quux</string>"
+			+ "</array>" + "</array>" + "</plist>";
 	public static final String VALID_PLIST_STRING_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<string>"
-		+ "foobar"
-		+ "</string>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<string>"
+			+ "foobar"
+			+ "</string>"
+			+ "</plist>";
 	public static final String VALID_PLIST_DATA_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<data>"
-		+ "Zm9vYmFy"
-		+ "</data>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<data>"
+			+ "Zm9vYmFy"
+			+ "</data>"
+			+ "</plist>";
 	public static final String VALID_PLIST_DATE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<date>"
-		+ "01212011 14:09:00"
-		+ "</date>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<date>"
+			+ "Sun, 13 Feb 2011 12:01:00 GMT-0500" + "</date>" + "</plist>";
 	public static final String VALID_PLIST_REAL_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<real>"
-		+ "3.1417"
-		+ "</real>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<real>"
+			+ "3.1417"
+			+ "</real>"
+			+ "</plist>";
 	public static final String VALID_PLIST_INTEGER_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<integer>"
-		+ "1"
-		+ "</integer>"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<integer>"
+			+ "1"
+			+ "</integer>"
+			+ "</plist>";
 	public static final String VALID_PLIST_TRUE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<true />"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">" + "<true />" + "</plist>";
 	public static final String VALID_PLIST_FALSE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-		+ "<plist version=\"1.0\">"
-		+ "<false />"
-		+ "</plist>";
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">" + "<false />" + "</plist>";
 
 	/**
 	 * The class under test.
@@ -329,7 +328,8 @@ public class PListXMLParserTest extends TestCase {
 		parser.setHandler(handler);
 		parser.parse(INVALID_PLIST);
 		assertNotNull(((PListXMLHandler) parser.getHandler()).getPlist());
-		assertNull(((PListXMLHandler) parser.getHandler()).getPlist().getRootElement());
+		assertNull(((PListXMLHandler) parser.getHandler()).getPlist()
+				.getRootElement());
 	}
 
 	/**
@@ -355,10 +355,10 @@ public class PListXMLParserTest extends TestCase {
 		parser.parse(VALID_WORKFLOW_PLIST);
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
-		assertEquals(6, ((PList.Dict) actualPList.getRootElement()).getConfigurationArray(
-				"workflow_answers").size());
-		assertEquals(3, ((PList.Dict) actualPList.getRootElement()).getConfigurationArray(
-				"workflow_tasks").size());
+		assertEquals(6, ((Dict) actualPList.getRootElement())
+				.getConfigurationArray("workflow_answers").size());
+		assertEquals(3, ((Dict) actualPList.getRootElement())
+				.getConfigurationArray("workflow_tasks").size());
 	}
 
 	/**
@@ -372,7 +372,134 @@ public class PListXMLParserTest extends TestCase {
 		parser.parse(VALID_PLIST_ARRAY_ROOT);
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
-		assertEquals(2, ((PList.PListArray) actualPList.getRootElement()).size());
+		assertEquals(2, ((Array) actualPList.getRootElement()).size());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListArrayRootNestedArray() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_ARRAY_ROOT_NESTED_ARRAY);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals(2, ((Array) actualPList.getRootElement()).size());
+		assertEquals(2,
+				((Array) ((Array) actualPList.getRootElement()).get(0)).size());
+		assertEquals(2,
+				((Array) ((Array) actualPList.getRootElement()).get(1)).size());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListStringRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_STRING_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertNotNull(actualPList.getRootElement());
+		assertEquals(
+				"foobar",
+				((com.longevitysoft.android.xml.plist.domain.String) actualPList
+						.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListDataRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_DATA_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals("Zm9vYmFy",
+				((Data) actualPList.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListDateRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_DATE_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals(new Date("Sun, 13 Feb 2011 12:01:00 GMT-0500"),
+				((com.longevitysoft.android.xml.plist.domain.Date) actualPList
+						.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListRealRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_REAL_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals(new Float(3.1417),
+				((Real) actualPList.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListIntegerRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_INTEGER_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertEquals(
+				new Integer(1).intValue(),
+				((com.longevitysoft.android.xml.plist.domain.Integer) actualPList
+						.getRootElement()).getValue().intValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListTrueRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_TRUE_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertTrue(((True) actualPList.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListFalseRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_FALSE_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		assertFalse(((False) actualPList.getRootElement()).getValue());
 	}
 
 }
