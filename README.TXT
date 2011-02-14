@@ -3,12 +3,7 @@ for Android.  PList-XML is a format developed by Apple Inc.  PLists are commonly
 
 License
 -------
-Licensed under Creative Commons Attribution 3.0 Unported license.
-http://creativecommons.org/licenses/by/3.0/
-
-You are free to copy, distribute and transmit the work, and to adapt the work. You must attribute android-plist-parser to Free Beachler (http://www.freebeachler.com) with link.
-
-The Android PList parser (android-plist-parser) is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See LICENSE.TXT that accompanies this project.
 
 Project
 -------
