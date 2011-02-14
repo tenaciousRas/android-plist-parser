@@ -14,7 +14,6 @@ package com.longevitysoft.android.test.plist.xml;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -26,10 +25,10 @@ import com.longevitysoft.android.util.Stringer;
 import com.longevitysoft.android.xml.plist.PListXMLHandler;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.PListParserListener;
 import com.longevitysoft.android.xml.plist.PListXMLHandler.ParseMode;
+import com.longevitysoft.android.xml.plist.domain.Array;
 import com.longevitysoft.android.xml.plist.domain.Dict;
 import com.longevitysoft.android.xml.plist.domain.Integer;
 import com.longevitysoft.android.xml.plist.domain.PList;
-import com.longevitysoft.android.xml.plist.domain.Array;
 import com.longevitysoft.android.xml.plist.domain.PListObject;
 
 /**
@@ -81,7 +80,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()}
+	 * {@link com.longevitysoft.android.xml.plist.PListXMLHandler#startDocument()}
 	 * .
 	 * 
 	 * @throws SAXException
@@ -96,7 +95,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#characters(char[], int, int)}
+	 * {@link com.longevitysoft.android.xml.plist.PListXMLHandler#characters(char[], int, int)}
 	 * .
 	 * 
 	 * @throws SAXException
@@ -110,7 +109,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)}
+	 * {@link com.longevitysoft.android.xml.plist.PListXMLHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)}
 	 * .
 	 * 
 	 * @throws SAXException
@@ -127,7 +126,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
+	 * {@link com.longevitysoft.android.xml.plist.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws SAXException
@@ -140,7 +139,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
+	 * {@link com.longevitysoft.android.xml.plist.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws SAXException
@@ -161,7 +160,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 			 * (non-Javadoc)
 			 * 
 			 * @see
-			 * org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument
+			 * com.longevitysoft.android.xml.plist.PListXMLHandler#startDocument
 			 * ()
 			 */
 			@Override
@@ -184,16 +183,14 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#startDocument()
+		 * com.longevitysoft.android.xml.plist.PListXMLHandler#startDocument()
 		 */
 		@Override
 		public void startDocument() throws SAXException {
 			super.startDocument();
 			super.setPlist(new PList());
-			super.stack = new Stack<PListObject>();
 			Dict rootDict = new Dict();
 			super.getPlist().setRootElement(rootDict);
-			super.elementDepth = 1;
 		}
 
 		public void setInArray(String key) throws SAXException {
@@ -212,7 +209,7 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 
 	/**
 	 * Test method for
-	 * {@link org.zooniverse.android.galaxyzoo.xml.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
+	 * {@link com.longevitysoft.android.xml.plist.PListXMLHandler#endElement(java.lang.String, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws SAXException

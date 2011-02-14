@@ -425,7 +425,7 @@ public class PListXMLParserTest extends TestCase {
 		parser.parse(VALID_PLIST_DATA_ROOT);
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
-		assertEquals("Zm9vYmFy",
+		assertEquals("foobar",
 				((Data) actualPList.getRootElement()).getValue());
 	}
 

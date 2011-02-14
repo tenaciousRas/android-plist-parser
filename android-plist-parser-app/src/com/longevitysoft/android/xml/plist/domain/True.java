@@ -1,10 +1,9 @@
 package com.longevitysoft.android.xml.plist.domain;
 
 /**
- * POJO for simple plist true element.
+ * Represents a simple plist true element.
  */
-public class True extends PListObject implements
-		IPListSimpleObject<Boolean> {
+public class True extends PListObject implements IPListSimpleObject<Boolean> {
 
 	/**
 	 * 
@@ -18,8 +17,8 @@ public class True extends PListObject implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seecom.longevitysoft.android.xml.plist.PListXMLHandler.PList.
-	 * IPListSimpleObject#getValue()
+	 * @see
+	 * com.longevitysoft.android.xml.plist.domain.IPListSimpleObject#getValue()
 	 */
 	@Override
 	public Boolean getValue() {
@@ -29,14 +28,22 @@ public class True extends PListObject implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seecom.longevitysoft.android.xml.plist.PListXMLHandler.PList.
-	 * IPListSimpleObject#setValue(java.lang.Object)
+	 * @see
+	 * com.longevitysoft.android.xml.plist.domain.IPListSimpleObject#setValue
+	 * (java.lang.Object)
 	 */
 	@Override
 	public void setValue(Boolean val) {
 		// noop
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.longevitysoft.android.xml.plist.domain.IPListSimpleObject#setValue
+	 * (java.lang.String)
+	 */
 	@Override
 	public void setValue(java.lang.String val) {
 		// noop

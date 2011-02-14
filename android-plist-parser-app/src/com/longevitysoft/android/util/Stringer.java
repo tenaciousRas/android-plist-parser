@@ -53,7 +53,7 @@ public class Stringer {
 	}
 
 	/**
-	 * Clear the class-global stringbuilder.
+	 * Get the class-global stringbuilder.
 	 * 
 	 * @return fluent interface to {@link builder}
 	 */
