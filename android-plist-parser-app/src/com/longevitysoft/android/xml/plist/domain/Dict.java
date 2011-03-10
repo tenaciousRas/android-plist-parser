@@ -90,8 +90,8 @@ public class Dict extends PListObject {
 			while (st.hasMoreTokens()) {
 				java.lang.String token = st.nextToken();
 				obj = dict.get(token);
-				if (obj instanceof TreeMap<?, ?>) {
-					dict = (Map<java.lang.String, PListObject>) obj;
+				if (obj instanceof Dict) {
+					dict = ((Dict) obj).getConfigMap();
 					continue;
 				}
 				return (E) obj;
