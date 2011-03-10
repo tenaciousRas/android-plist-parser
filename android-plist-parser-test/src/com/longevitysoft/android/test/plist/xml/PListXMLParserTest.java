@@ -214,6 +214,46 @@ public class PListXMLParserTest extends TestCase {
 			+ "<string>baz</string>"
 			+ "<string>quux</string>"
 			+ "</array>" + "</array>" + "</plist>";
+	public static final String VALID_PLIST_ARRAY_ROOT_NESTED_DICT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<array>"
+			+ "		<dict>\n"
+			+ "			<key>name</key>\n"
+			+ "			<string>How rounded is it?</string>\n"
+			+ "			<key>parent_id</key>\n"
+			+ "			<integer>1</integer>\n"
+			+ "			<key>task_id</key>\n"
+			+ "			<integer>7</integer>\n"
+			+ "			<key>workflow_answers</key>\n"
+			+ "			<array>\n"
+			+ "				<integer>4</integer>\n"
+			+ "				<integer>5</integer>\n"
+			+ "				<integer>6</integer>\n"
+			+ "			</array>\n"
+			+ "			<key>workflow_task_id</key>\n"
+			+ "			<integer>2</integer>\n"
+			+ "		</dict>\n" + "</array>" + "</plist>";
+	public static final String VALID_PLIST_DICT_ROOT_NESTED_DICT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<key>cat</key>"
+			+ "<dict>"
+			+ "<key>ID</key>"
+			+ "<string>901</string>"
+			+ "<key>title</key>"
+			+ "<string>Title</string>"
+			+ "<key>thumb</key>"
+			+ "<dict>"
+			+ "<key>ID</key>"
+			+ "<integer>152</integer>"
+			+ "<key>uri</key>"
+			+ "<string>http://www.google.com</string>"
+			+ "</dict>"
+			+ "<key>order</key>"
+			+ "<integer>2</integer>"
+			+ "<key>type</key>"
+			+ "<integer>5</integer>" + "</dict>" + "</plist>";
 	public static final String VALID_PLIST_STRING_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
 			+ "<plist version=\"1.0\">"
@@ -369,6 +409,26 @@ public class PListXMLParserTest extends TestCase {
 	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
 	 * .
 	 */
+	public void testParseValidPListDictRootNestedDict() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_DICT_ROOT_NESTED_DICT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		Dict cat = (Dict) actualPList.getRootElement();
+		assertEquals("901", cat.getConfiguration("ID").getValue());
+		assertEquals("Title", cat.getConfiguration("title").getValue());
+		assertEquals(new Integer(152), cat.getConfigurationInteger("thumb.ID").getValue());
+		assertEquals("http://www.google.com", cat.getConfiguration("thumb.uri").getValue());
+		assertEquals(new Integer(2), cat.getConfigurationInteger("order").getValue());
+		assertEquals(new Integer(5), cat.getConfigurationInteger("type").getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
 	public void testParseValidPListArrayRoot() {
 		PListXMLHandler handler = new PListXMLHandler();
 		parser.setHandler(handler);
@@ -425,8 +485,7 @@ public class PListXMLParserTest extends TestCase {
 		parser.parse(VALID_PLIST_DATA_ROOT);
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
-		assertEquals("foobar",
-				((Data) actualPList.getRootElement()).getValue());
+		assertEquals("foobar", ((Data) actualPList.getRootElement()).getValue());
 	}
 
 	/**
