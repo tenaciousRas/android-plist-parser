@@ -12,21 +12,38 @@
  */
 package com.longevitysoft.android.xml.plist.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+
+import android.util.Log;
+
 /**
  * Represents a simple plist date elements.
  */
 public class Date extends PListObject implements
 		IPListSimpleObject<java.util.Date> {
 
-	protected java.util.Date date;
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3846688440069431376L;
 
+	private static final java.lang.String TAG = "Date";
+
+	/**
+	 * The parsed date object.
+	 */
+	protected java.util.Date date;
+
+	/**
+	 * Used for parsing ISO dates.
+	 */
+	private SimpleDateFormat iso8601Format;
+
 	public Date() {
 		setType(PListObjectType.DATE);
+		iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	}
 
 	/*
@@ -61,7 +78,21 @@ public class Date extends PListObject implements
 	 */
 	@Override
 	public void setValue(java.lang.String val) {
-		this.date = new java.util.Date(java.util.Date.parse(val.trim()));
+		// sniff date
+		if (null == val || val.length() < 1) {
+			this.date = null;
+			return;
+		}
+		Scanner scanner = new java.util.Scanner(val).useDelimiter("-");
+		if (scanner.hasNextInt()) {
+			try {
+				this.date = iso8601Format.parse(val);
+			} catch (ParseException e) {
+				Log.e(TAG, new StringBuilder("#setValue - error parsing val=")
+						.append(val).toString(), e);
+			}
+		} else {
+			this.date = new java.util.Date(java.util.Date.parse(val.trim()));
+		}
 	}
-
 }

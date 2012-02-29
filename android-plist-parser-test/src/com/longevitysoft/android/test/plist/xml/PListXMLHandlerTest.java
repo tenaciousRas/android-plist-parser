@@ -32,6 +32,10 @@ import com.longevitysoft.android.xml.plist.domain.PList;
 import com.longevitysoft.android.xml.plist.domain.PListObject;
 
 /**
+ * Tests individual methods in {@link PListXMLHandler}. Most of the coverage
+ * achieved here can also be gotten by adding coverage to
+ * {@link PListXMLParserTest}.
+ * 
  * @author fbeachler
  * 
  */
@@ -214,7 +218,8 @@ public class PListXMLHandlerTest extends AndroidTestCase {
 	 * 
 	 * @throws SAXException
 	 */
-	// FIXME - this test no longer requires just setting tempval - but also the state
+	// FIXME - this test no longer requires just setting tempval - but also the
+	// state
 	// of the handler's stack and its flags for parent element state
 	public void testEndElementString_FullValidPList() throws SAXException {
 		// setup test

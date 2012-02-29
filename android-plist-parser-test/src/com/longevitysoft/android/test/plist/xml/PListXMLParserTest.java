@@ -30,6 +30,8 @@ import com.longevitysoft.android.xml.plist.domain.Real;
 import com.longevitysoft.android.xml.plist.domain.True;
 
 /**
+ * Tests {@link PListXMLParser} with various XML string fixtures.
+ * 
  * @author fbeachler
  * 
  */
@@ -273,6 +275,12 @@ public class PListXMLParserTest extends TestCase {
 			+ "<plist version=\"1.0\">"
 			+ "<date>"
 			+ "Sun, 13 Feb 2011 12:01:00 GMT-0500" + "</date>" + "</plist>";
+	public static final String VALID_PLIST_ISO8601_DATE_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+			+ "<plist version=\"1.0\">"
+			+ "<date>"
+			+ "2012-02-24T10:10:00Z"
+			+ "</date>" + "</plist>";
 	public static final String VALID_PLIST_REAL_ROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 			+ "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
 			+ "<plist version=\"1.0\">"
@@ -418,10 +426,14 @@ public class PListXMLParserTest extends TestCase {
 		Dict cat = (Dict) actualPList.getRootElement();
 		assertEquals("901", cat.getConfiguration("ID").getValue());
 		assertEquals("Title", cat.getConfiguration("title").getValue());
-		assertEquals(new Integer(152), cat.getConfigurationInteger("thumb.ID").getValue());
-		assertEquals("http://www.google.com", cat.getConfiguration("thumb.uri").getValue());
-		assertEquals(new Integer(2), cat.getConfigurationInteger("order").getValue());
-		assertEquals(new Integer(5), cat.getConfigurationInteger("type").getValue());
+		assertEquals(new Integer(152), cat.getConfigurationInteger("thumb.ID")
+				.getValue());
+		assertEquals("http://www.google.com", cat.getConfiguration("thumb.uri")
+				.getValue());
+		assertEquals(new Integer(2), cat.getConfigurationInteger("order")
+				.getValue());
+		assertEquals(new Integer(5), cat.getConfigurationInteger("type")
+				.getValue());
 	}
 
 	/**
@@ -486,6 +498,23 @@ public class PListXMLParserTest extends TestCase {
 		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
 		assertNotNull(actualPList);
 		assertEquals("foobar", ((Data) actualPList.getRootElement()).getValue());
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.longevitysoft.android.plist.xml.PListXMLParser#parse(java.lang.String)}
+	 * .
+	 */
+	public void testParseValidPListISO8601DateRoot() {
+		PListXMLHandler handler = new PListXMLHandler();
+		parser.setHandler(handler);
+		parser.parse(VALID_PLIST_ISO8601_DATE_ROOT);
+		PList actualPList = ((PListXMLHandler) parser.getHandler()).getPlist();
+		assertNotNull(actualPList);
+		// 2012-02-24T10:10:00Z
+		assertEquals(new Date("Fri, 24 Feb 2012 10:10:00 GMT-0700"),
+				((com.longevitysoft.android.xml.plist.domain.Date) actualPList
+						.getRootElement()).getValue());
 	}
 
 	/**
