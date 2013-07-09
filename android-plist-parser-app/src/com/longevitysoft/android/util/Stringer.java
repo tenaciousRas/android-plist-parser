@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
 
 /**
  * Wrapper for {@link StringBuilder}.
@@ -24,7 +25,7 @@ import java.io.Reader;
  * @author fbeachler
  * 
  */
-public class Stringer {
+public class Stringer implements Serializable {
 
 	private StringBuilder builder;
 
